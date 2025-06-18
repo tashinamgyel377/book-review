@@ -26,7 +26,7 @@ const CustomInput = <T extends FieldValues>({
     <FormField
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <div className="flex flex-col gap-1.5">
           <FormLabel className="text-sm font-medium text-foreground">
             {label}

@@ -1,22 +1,23 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "react-toastify"
-import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
 
-import { Input } from "../../components/ui/input"
-import { Button } from "../../components/ui/button"
-import { Label } from "../../components/ui/label"
-import { useAuthStore } from "../../store/useAuthStore"
-import { registerFormSchema } from "../../lib/utils"
-import type { infer as Infer } from "zod"
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Label } from "../../components/ui/label";
+import { useAuthStore } from "../../store/useAuthStore";
+import { registerFormSchema } from "../../lib/utils";
+import type { infer as Infer } from "zod";
 
-type SignUpFormData = Infer<ReturnType<typeof registerFormSchema>>
+type SignUpFormData = Infer<ReturnType<typeof registerFormSchema>>;
 
 const SignIn = () => {
-  const navigate = useNavigate()
-  const { registerUser, loading } = useAuthStore()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const navigate = useNavigate();
+  const { registerUser, loading } = useAuthStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(registerFormSchema()),
@@ -25,20 +26,28 @@ const SignIn = () => {
       email: "",
       password: "",
     },
-  })
+  });
 
   const onSubmit = async (data: SignUpFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      console.log("data", data)
-      await registerUser(data)
-      navigate("/")
+      // Hash the password before sending
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+
+      const payload = {
+        username: data.username,
+        email: data.email,
+        passwordHash: hashedPassword,
+      };
+
+      await registerUser(payload);
+      navigate("/");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Registration failed")
+      toast.error(err instanceof Error ? err.message : "Registration failed");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div
@@ -137,7 +146,7 @@ const SignIn = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

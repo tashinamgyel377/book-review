@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -12,7 +12,6 @@ import {
 } from '../../components/ui/dialog';
 
 const UserProfile: React.FC = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');

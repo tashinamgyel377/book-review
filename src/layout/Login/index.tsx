@@ -1,22 +1,23 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "react-toastify"
-import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
 
-import { Input } from "../../components/ui/input"
-import { Button } from "../../components/ui/button"
-import { Label } from "../../components/ui/label"
-import { useAuthStore } from "../../store/useAuthStore"
-import { loginFormSchema } from "../../lib/utils"
-import type { infer as Infer } from "zod"
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Label } from "../../components/ui/label";
+import { useAuthStore } from "../../store/useAuthStore";
+import { loginFormSchema } from "../../lib/utils";
+import type { infer as Infer } from "zod";
 
-type LoginFormData = Infer<ReturnType<typeof loginFormSchema>>
+type LoginFormData = Infer<ReturnType<typeof loginFormSchema>>;
 
 const Login = () => {
-  const navigate = useNavigate()
-  const { loginUser, loading } = useAuthStore()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const navigate = useNavigate();
+  const { loginUser, loading } = useAuthStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema()),
@@ -24,19 +25,30 @@ const Login = () => {
       email: "",
       password: "",
     },
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      await loginUser(data)
-      navigate(`/`)
+      // Assuming your loginUser expects 'name' instead of 'email'
+      // Adjust this as per your actual backend or store expectation
+      
+      // Hash the password before sending
+      const passwordHash = await bcrypt.hash(data.password, 10);
+
+      const payload = {
+        name: data.email || "",  // map email to 'name' if required
+        passwordHash,
+      };
+
+      await loginUser(payload);
+      navigate(`/`);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Authentication failed")
+      toast.error(err instanceof Error ? err.message : "Authentication failed");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div
@@ -111,7 +123,7 @@ const Login = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
