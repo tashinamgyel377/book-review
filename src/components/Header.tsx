@@ -19,7 +19,7 @@ const Header = () => {
             className="text-xl font-bold text-gray-900 tracking-tight hover:opacity-80 transition cursor-pointer"
             onClick={() => navigate('/')}
           >
-            📚 BookReview
+            
           </div>
 
           {/* User Info */}

@@ -17,8 +17,7 @@ const HomePage = () => {
       >
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative max-w-3xl mx-auto z-10">
-          <h1 className="text-5xl font-extrabold mb-6 leading-tight">
-            📚 Welcome to BookVerse
+          <h1 className="text-5xl font-extrabold mb-6 leading-tight ">
           </h1>
           <p className="text-xl text-gray-200 mb-6">
             Join a community of book lovers. Explore new reads, track your progress, and share your insights with others.
@@ -27,7 +26,7 @@ const HomePage = () => {
             asChild
             className="bg-indigo-600 text-white hover:bg-indigo-700 px-6 py-3 text-lg font-semibold"
           >
-            <Link to="/sign-up">Start Your Journey</Link>
+            <Link to="/sign-up">Join Now</Link>
           </Button>
         </div>
       </section>
@@ -95,42 +94,46 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="bg-white py-20 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold mb-10">💬 Reader Feedback</h2>
-          <div className="grid md:grid-cols-3 gap-6 text-left">
-            {[
-              {
-                name: "Liam Parker",
-                text: "I love how easy it is to track my reading progress and discover new books.",
-                img: "https://randomuser.me/api/portraits/men/32.jpg",
-              },
-              {
-                name: "Sophia Reyes",
-                text: "BookVerse has reignited my love for reading!",
-                img: "https://randomuser.me/api/portraits/women/44.jpg",
-              },
-              {
-                name: "Noah Kim",
-                text: "Clean interface, awesome community, and a fantastic way to stay motivated.",
-                img: "https://randomuser.me/api/portraits/men/85.jpg",
-              },
-            ].map((user, i) => (
-              <Card key={i} className="p-6">
-                <div className="flex items-center mb-4 gap-4">
-                  <img
-                    src={user.img}
-                    alt={user.name}
-                    className="w-12 h-12 rounded-full object-cover border border-gray-300"
-                  />
-                  <span className="font-semibold">{user.name}</span>
-                </div>
-                <p className="text-sm text-gray-700">"{user.text}"</p>
-              </Card>
-            ))}
+     <section className="bg-gray-300 py-20 px-6">
+  <div className="max-w-5xl mx-auto text-center">
+    <h2 className="text-3xl font-semibold mb-10">💬 What Readers Are Saying</h2>
+    <div className="grid md:grid-cols-3 gap-6">
+      {[
+        {
+          name: "Liam Parker",
+          text: "I love how easy it is to track my reading progress and discover new books.",
+          img: "https://randomuser.me/api/portraits/men/32.jpg",
+        },
+        {
+          name: "Sophia Reyes",
+          text: "BookVerse has reignited my love for reading!",
+          img: "https://randomuser.me/api/portraits/women/44.jpg",
+        },
+        {
+          name: "Noah Kim",
+          text: "Clean interface, awesome community, and a fantastic way to stay motivated.",
+          img: "https://randomuser.me/api/portraits/men/85.jpg",
+        },
+      ].map((user, i) => (
+        <Card key={i} className="p-6 flex flex-col justify-between min-h-[110px]">
+          <div>
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src={user.img}
+                alt={user.name}
+                className="w-12 h-12 rounded-full object-cover border border-gray-300"
+              />
+              <span className="font-semibold text-gray-800">{user.name}</span>
+            </div>
+            <p className="text-sm text-gray-700">"{user.text}"</p>
           </div>
-        </div>
-      </section>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
+
+
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 pt-12 px-6">
